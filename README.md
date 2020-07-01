@@ -52,10 +52,6 @@ Advanced Analysis of Facebook portfolio compared with Google portfolio.
 
 ![advanced_analysis_1](screen_shots/analysis_7.png)
 
-Top similar patents in Facebook and Google portfolios in Image Processing category.
-
-![advanced_analysis_similar](screen_shots/analysis_4.png)
-
 <h2 id="head3"> Acknowledgements </h2>
 
 <ul>
