@@ -30,7 +30,7 @@
     var divElement = d3.select('#vis');
     var titleElement = d3.select('#vis_ttl');
     var disclaimerElement = d3.select('#disclaimer');
-    var visualize = function(vegaEmbed, width, height, el) {
+    var visualize = function(vegaEmbed, width, height, labelSize, el) {
       var spec = {
         "config": {
           "view": {
@@ -62,7 +62,7 @@
                   "y": {
                     "type": "nominal",
                     "axis": {
-                      "labelFontSize": width/60,
+                      "labelFontSize": labelSize,
                       "orient": "right",
                       "title": null
                     },
@@ -181,7 +181,7 @@
                   "y": {
                     "type": "nominal",
                     "axis": {
-                      "labelFontSize": width/60,
+                      "labelFontSize": labelSize,
                       "ticks": false,
                       "title": ""
                     },
@@ -230,7 +230,7 @@
                   "y": {
                     "type": "nominal",
                     "axis": {
-                      "labelFontSize": width/60,
+                      "labelFontSize": labelSize,
                       "ticks": false,
                       "title": ""
                     },
@@ -370,6 +370,7 @@
       var mb = parseInt(style.marginBottom) || 0;
       var pmt = parseInt(pStyle.marginTop) || 0;
       var pmb = parseInt(pStyle.marginBottom) || 0;
+      var lSize;
 
       if(window.innerHeight){
         w = window.innerWidth;
@@ -383,15 +384,19 @@
       if(h > (th + ph)){
         h = h - th - ph;
       }
-      console.log(w, h);
       if(w > 1.5 * h){
-        console.log('width is bigger than 1.5 height');
         w = 1.5 * h;
       }else{
         h = w/1.5;
       }
-      console.log(w, h);
-      visualize(vegaEmbed, w, h, divElement.node());
+      lSize = w/60;
+      if(lSize > 13){
+        lSize = 13;
+      }
+      if(lSize < 7){
+        lSize = 7;
+      }
+      visualize(vegaEmbed, w, h, lSize, divElement.node());
     }
     resize();
   </script>
