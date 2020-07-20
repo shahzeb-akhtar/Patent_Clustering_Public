@@ -3,13 +3,11 @@ Categorizing patents using NLP. This is the public version of Patent_Clustering 
 
 <h2 id="head3"> Acknowledgements </h2>
 
-<ul>
- <li> [Udacity](https://www.udacity.com/)
- <li> [Google Patents](https://patents.google.com/)
- <li> [Google Patents Research Data](https://console.cloud.google.com/marketplace/details/google_patents_public_datasets/google-patents-research-data)
- <li> [PatentsView](https://www.patentsview.org/download/)
- <li> [Reed Tech](http://patents.reedtech.com/patent-products.php)
-</ul>
+-[Udacity](https://www.udacity.com/)
+-[Google Patents](https://patents.google.com/)
+-[Google Patents Research Data](https://console.cloud.google.com/marketplace/details/google_patents_public_datasets/google-patents-research-data)
+-[PatentsView](https://www.patentsview.org/download/)
+-[Reed Tech](http://patents.reedtech.com/patent-products.php)
 
 <h2 id="head4"> Author </h2>
 
