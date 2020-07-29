@@ -1,5 +1,5 @@
 # Patent_Clustering_Public
-Categorizing patents using NLP. This is the public version of Patent_Clustering repository. if you need access to code or have any questions please reach out to the <a href="#head4">author</a>
+Categorizing patents using NLP. If you need access or have any questions please reach out to the <a href="#head4">author</a>
 
 <h2 id="head3"> Acknowledgements </h2>
 
