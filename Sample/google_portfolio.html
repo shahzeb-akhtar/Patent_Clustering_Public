@@ -16,9 +16,9 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega-embed@6"></script>
 </head>
 <body>
-  <h3 id="vis_ttl" class="helvetica_font">Facebook Portfolio *</h3>
+  <h3 id="vis_ttl" class="helvetica_font"></h3>
   <div id="vis" class="helvetica_font"></div>
-  <p id="disclaimer">* Assets filed in or after 2015 and published in or before 2019.</p>
+  <p id="disclaimer">* Assets filed in or after 2015 and published in or before 2019 in US.</p>
   <p><b>Data Sources</b></p>
   <ul>
     <li><a target="_blank" href="https://patents.google.com/">Google Patents</a></li>
@@ -30,18 +30,15 @@
     var divElement = d3.select('#vis');
     var titleElement = d3.select('#vis_ttl');
     var disclaimerElement = d3.select('#disclaimer');
-    var visualize = function(vegaEmbed, width, height, labelSize, el) {
-      var spec = {
-        "config": {
-          "view": {
-            "continuousWidth": 400,
-            "continuousHeight": 300
-          }
-        },
-        "hconcat": [
-          {
-            "vconcat": [
-            {
+    var visualize = function(vegaEmbed, width, height, labelSize, el, url) {
+      var colOneWidth = (width * 0.55) - 175;
+      var colTwoWidth = (width * 0.35) - 75;
+      var rowOneHeight = height*0.25;
+      var rowTwoHeight = height*0.65;
+      if(rowOneHeight < 100){
+        rowOneHeight = 100;
+      }
+      var assetTypeChart = {
                 "mark": {
                   "type": "point",
                   "size": 50
@@ -63,13 +60,11 @@
                     "type": "nominal",
                     "axis": {
                       "labelFontSize": labelSize,
-                      "orient": "right",
                       "title": null
                     },
                     "field": "asset_type"
                   }
                 },
-                "height": height*0.05,
                 "selection": {
                   "selector008": {
                     "type": "multi",
@@ -78,9 +73,12 @@
                     ]
                   }
                 },
-                "title": "Asset Type"
-              },
-              {
+                "title": {
+                  "text": "Asset Type",
+                  "fontSize": labelSize
+                }
+              };
+      var scatterChart = {
                 "mark": "point",
                 "encoding": {
                   "color": {
@@ -136,13 +134,16 @@
                     "field": "y"
                   }
                 },
-                "height": height*0.65,
+                "height": rowTwoHeight,
                 "selection": {
                   "selector009": {
                     "type": "single"
                   }
                 },
-                "title": "Content Similarity Scatter",
+                "title": {
+                  "text": "Content Similarity Scatter",
+                  "fontSize": labelSize
+                },
                 "transform": [
                   {
                     "filter": {
@@ -155,9 +156,9 @@
                     }
                   }
                 ],
-                "width": width*0.45
-              },
-              {
+                "width": colOneWidth
+              };
+      var assetTypeBarChart = {
                 "mark": "bar",
                 "encoding": {
                   "color": {
@@ -181,8 +182,6 @@
                     "field": "asset_type"
                   }
                 },
-                "height": height*0.08,
-                "title": "Asset Type",
                 "transform": [
                   {
                     "filter": {
@@ -195,13 +194,9 @@
                     }
                   }
                 ],
-                "width": width*0.45
-              }
-            ]
-          },
-          {
-            "vconcat": [
-              {
+                "width": colTwoWidth
+              };
+      var categoriesChart = {
                 "mark": "bar",
                 "encoding": {
                   "color": {
@@ -231,7 +226,7 @@
                     "sort": "-x"
                   }
                 },
-                "height": height*0.25,
+                "height": rowOneHeight,
                 "selection": {
                   "selector007": {
                     "type": "multi",
@@ -240,10 +235,13 @@
                     ]
                   }
                 },
-                "title": "Categories",
-                "width": width*0.3
-              },
-              {
+                "title": {
+                  "text": "Categories",
+                  "fontSize": labelSize
+                },
+                "width": colOneWidth
+              };
+      var filingChart = {
                 "mark": "bar",
                 "encoding": {
                   "color": {
@@ -266,8 +264,11 @@
                     }
                   }
                 },
-                "height": height*0.25,
-                "title": "Assets by Filing Year",
+                "height": rowTwoHeight/2 - 30,
+                "title": {
+                  "text": "Assets by Filing Year",
+                  "fontSize": labelSize
+                },
                 "transform": [
                   {
                     "filter": {
@@ -280,9 +281,9 @@
                     }
                   }
                 ],
-                "width": width*0.3
-              },
-              {
+                "width": colTwoWidth
+              };
+      var priorityChart = {
                 "mark": "bar",
                 "encoding": {
                   "color": {
@@ -293,7 +294,8 @@
                     "type": "ordinal",
                     "axis": {
                       "labelAngle": 0,
-                      "title": ""
+                      "title": "",
+                      "tickCount": 5
                     },
                     "field": "priority_year"
                   },
@@ -305,8 +307,11 @@
                     }
                   }
                 },
-                "height": height*0.25,
-                "title": "Assets by Priority Year",
+                "height": rowTwoHeight/2 - 30,
+                "title": {
+                  "text": "Assets by Priority Year",
+                  "fontSize": labelSize
+                },
                 "transform": [
                   {
                     "filter": {
@@ -319,13 +324,41 @@
                     }
                   }
                 ],
-                "width": width*0.3
+                "width": colTwoWidth
+              };
+      var spec = {
+        "config": {
+          "view": {
+            "continuousWidth": 400,
+            "continuousHeight": 300
+          }
+        },
+        "vconcat": [
+          {
+            "hconcat": [
+              categoriesChart,
+              {
+                "vconcat": [
+                  assetTypeChart,
+                  assetTypeBarChart
+                ]
+              }
+            ]
+          },
+          {
+            "hconcat": [
+              scatterChart,
+              {
+                "vconcat": [
+                  filingChart,
+                  priorityChart
+                ]
               }
             ]
           }
         ],
         "data": {
-          "url": "altair-data-f503e8002d2ed60ff05bb9d3f1d5f775.json",
+          "url": url,
           "format": {
             "type": "json"
           }
@@ -377,10 +410,11 @@
       if(h > (th + ph)){
         h = h - th - ph;
       }
-      if(w > 1.5 * h){
-        w = 1.5 * h;
-      }else{
-        h = w/1.5;
+      if(h < 200){
+        h = 200;
+      }
+      if(w < 400){
+        w = 400;
       }
       lSize = w/60;
       if(lSize > 13){
@@ -389,8 +423,11 @@
       if(lSize < 7){
         lSize = 7;
       }
-      visualize(vegaEmbed, w, h, lSize, divElement.node());
+      visualize(vegaEmbed, 
+                w, h, lSize, divElement.node(), 
+                "altair-data-portfolio-2.json");
     }
+    titleElement.html('Google Portfolio *')
     resize();
   </script>
 </body>
